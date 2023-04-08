@@ -3,8 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { FaDumbbell } from 'react-icons/fa';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { IoIosBody } from 'react-icons/io';
-
-const HorizentalScrollbar = ({ data }) => {
+import BodyPart from './bodyPart.jsx';
+const HorizentalScrollbar = ({ data,setBodyPart,bodyPart }) => {
   const getIcon = (item) => {
     switch (item.toLowerCase()) {
       case 'all':
@@ -57,7 +57,7 @@ const HorizentalScrollbar = ({ data }) => {
           }}
         >
           {getIcon(item)}
-          <Typography sx={{ ml: 1 }}>{item}</Typography>
+          <BodyPart item={item} bodyPart={bodyPart} setBodyPart={setBodyPart} />
         </Box>
       ))}
     </Box>
