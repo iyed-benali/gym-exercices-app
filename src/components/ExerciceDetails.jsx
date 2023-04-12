@@ -30,6 +30,7 @@ const ExerciceDetails = () => {
       setEquipmentExercises(equimentExercisesData);
        setVideo(YoutubeData) 
       setExericeDetail(ExericeData)
+    
     }
     fetchDataFromAPI();
   }, [id])

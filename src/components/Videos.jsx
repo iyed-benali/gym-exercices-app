@@ -1,37 +1,68 @@
-    import React from 'react'
-    import { Box, Stack, Typography } from '@mui/material'
+import React from 'react';
+import { Box, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 
-    const Videos = ({ video, name   }) => {
-    console.log(video);
-    
-    return (
-        <Box sx={{ marginTop: { lg: '203px', xs: '20px' } }} p="20px">
-          <Typography sx={{ fontSize: { lg: '44px', xs: '25px' } }} fontWeight={700} color="#000" mb="33px">
-            Watch <span style={{ color: '#FF2625', textTransform: 'capitalize' }}>{name}</span> exercise videos
-          </Typography>
-          <Stack sx={{ flexDirection: { lg: 'row' }, gap: { lg: '110px', xs: '0px' } }} justifyContent="flex-start" flexWrap="wrap" alignItems="center">
-            {video?.slice(0, 3)?.map((item, index) => (
-              <a
-                key={index}
-                className="exercise-video"
-                href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img style={{ borderTopLeftRadius: '20px' }} src={item.video.thumbnails[0].url} alt={item.video.title} />
-                <Box>
-                  <Typography sx={{ fontSize: { lg: '28px', xs: '18px' } }} fontWeight={600} color="#000">
-                    {item.video.title}
-                  </Typography>
-                  <Typography fontSize="14px" color="#000">
-                    {item.video.channelName}
-                  </Typography>
-                </Box>
-              </a>
-            ))}
-          </Stack>
-        </Box>
-      );
-    }
+const StyledHeader = styled('h1')({
+  fontSize: 32,
+  fontWeight: 'bold',
+  marginBottom: 20,
+  textAlign: 'center',
+  textTransform: 'uppercase',
+});
 
-    export default Videos
+const StyledLink = styled('a')({
+  display: 'block',
+  width: '100%',
+  maxWidth: 300,
+  height: 200,
+  overflow: 'hidden',
+  borderRadius: 8,
+  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
+  transition: 'transform 0.3s ease-in-out',
+  '&:hover': {
+    transform: 'scale(1.1)',
+  },
+});
+
+const StyledImg = styled('img')({
+  objectFit: 'cover',
+  width: '100%',
+  height: '100%',
+});
+
+const Videos = ({ video, name }) => {
+  if (!video) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(video.contents);
+
+  if (!video.contents || video.contents.length === 0) {
+    return <div>No videos found.</div>;
+  }
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <StyledHeader>Watch {name} Exercise Videos</StyledHeader>
+      <Stack sx={{ flexDirection: 'row' }} spacing={2}>
+        {video.contents.slice(0, 5).map((item, index) => (
+          <StyledLink
+            key={index}
+            href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <StyledImg
+              src={item.video.thumbnails[0].url}
+              alt={item.video.title}
+              width={item.video.thumbnails[0].width}
+              height={item.video.thumbnails[0].height}
+            />
+          </StyledLink>
+        ))}
+      </Stack>
+    </Box>
+  );
+};
+
+export default Videos;
